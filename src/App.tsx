@@ -1,7 +1,7 @@
 import "./App.css";
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App";
+// import { StrictMode } from "react";
+// import { createRoot } from "react-dom/client";
+// import App from "./App";
 import { useState } from "react";
 
 function Square({ value, onSquareClick }) {
