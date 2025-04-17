@@ -4,7 +4,7 @@ import "./App.css";
 // import App from "./App";
 import { useState } from "react";
 
-function Square({ value, onSquareClick }) {
+function Square({ value, squres, onSquareClick }) {
   return (
     <button className="square" onClick={onSquareClick}>
       {value}
@@ -12,7 +12,10 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-function Board({ xIsNext, squares, onPlay }) {
+function Board() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -23,7 +26,8 @@ function Board({ xIsNext, squares, onPlay }) {
     } else {
       nextSquares[i] = "O";
     }
-    onPlay(nextSquares);
+    setSquares(nextSquares);
+    setXIsNext(!xIsNext);
   }
 
   const winner = calculateWinner(squares);
@@ -54,49 +58,41 @@ function Board({ xIsNext, squares, onPlay }) {
   );
 }
 
-function Game() {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [history, setHistory] = useState([Array(9).fill(null)]);
-  const currentSquares = history[history.length - 1];
+export default function Game() {
+  // const [xIsNext, setXIsNext] = useState(true);
+  // const [history, setHistory] = useState([Array(9).fill(null)]);
+  // const currentSquares = history[history.length - 1];
 
-  function handlePlay(nextSquares) {
-    setHistory([...history, nextSquares]);
-    setXIsNext(!xIsNext);
-  }
+  // function handlePlay(nextSquares) {
+  //   setHistory([...history, nextSquares]);
+  //   setXIsNext(!xIsNext);
+  // }
 
-  function jumpTo(nextMove) {
-    // TODO
-  }
+  // function jumpTo(nextMove) {
+  //   // TODO
+  // }
 
-  const moves = history.map((squares, move) => {
-    let description;
-    if (move > 0) {
-      description = "Go to move #" + move;
-    } else {
-      description = "Go to game start";
-    }
-    return (
-      <li>
-        <button className="movesBtn" onClick={() => jumpTo(move)}>
-          {description}
-        </button>
-      </li>
-    );
-  });
+  // const moves = history.map((squares, move) => {
+  //   let description;
+  //   if (move > 0) {
+  //     description = "Go to move #" + move;
+  //   } else {
+  //     description = "Go to game start";
+  //   }
 
   return (
     <div className="game">
       <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        <Board />
       </div>
       <div className="game-info">
-        <ol>{moves}</ol>
+        <ol></ol>
       </div>
     </div>
   );
 }
 
-function calculateWinner(squares: any) {
+function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -115,4 +111,3 @@ function calculateWinner(squares: any) {
   }
   return null;
 }
-export default Game;
